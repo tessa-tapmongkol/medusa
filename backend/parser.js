@@ -4,7 +4,10 @@ async function getLabels(filename){
 
     // Creates a client
     const client = new vision.ImageAnnotatorClient();
-    const [result] = await client.labelDetection(filename);
+
+    const bucketName = "qwerhacks_image_temp"
+
+    const [result] = await client.labelDetection(`gs://${bucketName}/${filename}`);
     const labels = result.labelAnnotations;
     return labels
 }
@@ -47,6 +50,6 @@ async function needToBlur(filename, triggers_list){
 }
 
 // how to use:
-needToBlur("./cat.jpg", ["cat"]).then(value => {
+needToBlur("temp.jpg", ["cat"]).then(value => {
     console.log(value)
 })
