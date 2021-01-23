@@ -30,15 +30,20 @@ let isTriggering = (label_list, triggers_list) => {
 
 // main function
 async function needToBlur(filename, triggers_list){
-    return new Promise((resolve, reject) => 
-        getLabels(filename).then(labels => {
-            let labels_parsed = []
-            for (let i = 0; i < labels.length; i++){
-                labels_parsed.push(labels[i].description)
-            }
-            resolve(isTriggering(labels_parsed, triggers_list));
-        })
-    )
+    return new Promise((resolve, reject) => {
+        try {
+            getLabels(filename).then(labels => {
+                let labels_parsed = []
+                for (let i = 0; i < labels.length; i++){
+                    labels_parsed.push(labels[i].description)
+                }
+                resolve(isTriggering(labels_parsed, triggers_list));
+            })
+        }
+        catch (err) {
+            reject(err)
+        }
+    })
 }
 
 // how to use:
