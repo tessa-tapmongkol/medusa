@@ -49,7 +49,11 @@ async function needToBlur(filename, triggers_list){
     })
 }
 
+/*
 // how to use:
+
 needToBlur("temp.jpg", ["cat"]).then(value => {
     console.log(value)
 })
+
+*/
