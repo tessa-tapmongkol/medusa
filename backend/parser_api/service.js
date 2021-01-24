@@ -1,14 +1,17 @@
 async function getLabels(filename){
-    const vision = require('@google-cloud/vision');
+    try{
+        const vision = require('@google-cloud/vision');
+        // Creates a client
+        const client = new vision.ImageAnnotatorClient();
 
-    // Creates a client
-    const client = new vision.ImageAnnotatorClient();
-
-    //const bucketName = "qwerhacks_image_temp"
-    //const [result] = await client.labelDetection(`gs://${bucketName}/${filename}`);
-    const [result] = await client.labelDetection(filename);
-    const labels = result.labelAnnotations;
-    return labels
+        //const bucketName = "qwerhacks_image_temp"
+        //const [result] = await client.labelDetection(`gs://${bucketName}/${filename}`);
+        const [result] = await client.labelDetection(filename);
+        const labels = result.labelAnnotations;
+        return labels
+    } catch (err){
+        return []
+    }
 }
 
 // label_list =  a list of labels that defines the image
@@ -35,6 +38,10 @@ async function needToBlur(filename, triggers_list){
     return new Promise((resolve, reject) => {
         try {
             getLabels(filename).then(labels => {
+                console.log(labels)
+                if (labels === []){
+                    reject("Unable to parse image")
+                }
                 let labels_parsed = []
                 for (let i = 0; i < labels.length; i++){
                     labels_parsed.push(labels[i].description)
