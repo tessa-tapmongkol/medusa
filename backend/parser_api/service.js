@@ -17,8 +17,6 @@ async function getLabels(filename){
 
             client.labelDetection(request_body)
             .then(response => {
-                console.log("response:")
-                console.log(response[0].labelAnnotations)
                 const labels = response[0].labelAnnotations;
                 resolve(labels);
             })
@@ -39,8 +37,6 @@ async function getLabels(filename){
                     }
                     console.log("done")
                     client.labelDetection(request_body).then(response => {
-                        console.log("response:")
-                        console.log(response[0].labelAnnotations)
                         const labels = response[0].labelAnnotations;
                         resolve(labels);
                     })

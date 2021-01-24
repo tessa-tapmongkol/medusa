@@ -5,7 +5,6 @@ chrome.runtime.onMessage.addListener(phobia_list => {
     // blur all image
     for (img of images){
         let src = img.src
-        console.log(src)
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         
@@ -22,8 +21,8 @@ chrome.runtime.onMessage.addListener(phobia_list => {
           .then(response => response.text())
           .then(result => {
               if (result) {
-                  console.log("blurring img")
-                  img.style.filter = "blur(25px)"
+                  console.log("blurring img", img);
+                  img.style.filter = "blur(5px)";
               }
             })
           .catch(error => console.log('error', error));
