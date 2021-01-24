@@ -6,6 +6,8 @@
 3. Open your terminal
 4. cd to the backend/parser_api folder
 5. `export GOOGLE_APPLICATION_CREDENTIALS="../secret.json"`
+6. Run `node app.js`
+7. On your terminal, it should print "Example app listening on port 3000!"
 
 # How to use image API
 
@@ -32,3 +34,12 @@ curl --location --request POST 'localhost:3000/parse' \
     ]
 }'
 ```
+
+# Run this extension on your browser
+1. Follow the "How to run the backend" guide 
+2. Clone this repo
+3. Go to chrome://extensions
+4. Choose "Load Unpacked"
+5. Upload this folder
+6. The extension is ready to run!
+
