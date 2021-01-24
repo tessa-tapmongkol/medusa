@@ -1,44 +1,57 @@
+const vision = require('@google-cloud/vision');
+const client = new vision.ImageAnnotatorClient();
+const request = require('request').defaults({ encoding: null });
+
 async function getLabels(filename){
-    const vision = require('@google-cloud/vision');
-    // Creates a client
-    const client = new vision.ImageAnnotatorClient();
+    let request_body = {}
 
-    let request = {}
-    if (filename.includes("data:image/jpeg;base64")){
-        console.log("is a base64 image");
-        const b64 = filename.substring(23) // take only the encoding
-        request = {
-            image: {
-                content: b64
-              }
-        }
-    } 
-    else {
-        request = {
-            image: {
-              source: {imageUri: filename}
-            }
-          };
-    }
-      
     return new Promise((resolve, reject) => {
-      client
-        .labelDetection(request)
-        .then(response => {
-            console.log("response:")
-            console.log(response[0].labelAnnotations)
-            const labels = response[0].labelAnnotations;
-            resolve(labels);
-        })
-        .catch(err => {
-          console.error(err);
-          resolve([])
-        });
-    })
+        if (filename.includes("data:image/jpeg;base64")){
+            console.log("is a base64 image");
+            const b64 = filename.substring(23) // take only the encoding
+            request_body = {
+                image: {
+                    content: b64
+                }
+            }
 
-    //const [result] = await client.labelDetection(filename);
-    // const labels = result.labelAnnotations;
-    // return labels
+            client.labelDetection(request_body)
+            .then(response => {
+                console.log("response:")
+                console.log(response[0].labelAnnotations)
+                const labels = response[0].labelAnnotations;
+                resolve(labels);
+            })
+            .catch(err => {
+                console.error(err);
+                resolve([])
+            });
+        } 
+        else {
+            // convert to base64
+            request.get(filename, function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    let data = Buffer.from(body).toString('base64');
+                    request_body = {
+                        image: {
+                            content: data
+                        }
+                    }
+                    console.log("done")
+                    client.labelDetection(request_body).then(response => {
+                        console.log("response:")
+                        console.log(response[0].labelAnnotations)
+                        const labels = response[0].labelAnnotations;
+                        resolve(labels);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        resolve([])
+                    });
+                }
+            });
+        }
+    })
 }
 
 // label_list =  a list of labels that defines the image
