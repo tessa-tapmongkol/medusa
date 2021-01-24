@@ -1,17 +1,44 @@
 async function getLabels(filename){
-    try{
-        const vision = require('@google-cloud/vision');
-        // Creates a client
-        const client = new vision.ImageAnnotatorClient();
+    const vision = require('@google-cloud/vision');
+    // Creates a client
+    const client = new vision.ImageAnnotatorClient();
 
-        //const bucketName = "qwerhacks_image_temp"
-        //const [result] = await client.labelDetection(`gs://${bucketName}/${filename}`);
-        const [result] = await client.labelDetection(filename);
-        const labels = result.labelAnnotations;
-        return labels
-    } catch (err){
-        return []
+    let request = {}
+    if (filename.includes("data:image/jpeg;base64")){
+        console.log("is a base64 image");
+        const b64 = filename.substring(23) // take only the encoding
+        request = {
+            image: {
+                content: b64
+              }
+        }
+    } 
+    else {
+        request = {
+            image: {
+              source: {imageUri: filename}
+            }
+          };
     }
+      
+    return new Promise((resolve, reject) => {
+      client
+        .labelDetection(request)
+        .then(response => {
+            console.log("response:")
+            console.log(response[0].labelAnnotations)
+            const labels = response[0].labelAnnotations;
+            resolve(labels);
+        })
+        .catch(err => {
+          console.error(err);
+          resolve([])
+        });
+    })
+
+    //const [result] = await client.labelDetection(filename);
+    // const labels = result.labelAnnotations;
+    // return labels
 }
 
 // label_list =  a list of labels that defines the image
