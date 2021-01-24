@@ -1,0 +1,62 @@
+html {
+    background-color: #C38D9E;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    padding: 20px;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+header {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+input {
+    border: none;
+    border-radius: 2px;
+    height: 30px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+h3 {
+    font-size: 25px;
+    padding: 0;
+    margin: 0;
+}
+
+#phobia_type {
+    margin: 4px;
+}
+
+#submitPhobia {
+    margin: 2px 4px;
+    border: none;
+    background-color: #555555;
+    padding: 5px 10px;
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+}
+
+p {
+    background-color: aliceblue;
+    width: fit-content;
+    padding: 6px;
+    border-radius: 2px;
+    font-size: 15px;
+}
+
+#phobias {
+    margin: 4px;
+}
+
+main {
+    margin: 0;
+    padding: 0;
+}
