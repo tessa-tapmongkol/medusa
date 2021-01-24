@@ -35,7 +35,6 @@ async function getLabels(filename){
                             content: data
                         }
                     }
-                    console.log("done")
                     client.labelDetection(request_body).then(response => {
                         const labels = response[0].labelAnnotations;
                         resolve(labels);
@@ -53,6 +52,7 @@ async function getLabels(filename){
 // label_list =  a list of labels that defines the image
 // triggers_list = user input on what they want us to blur
 let isTriggering = (label_list, triggers_list) => {
+    console.log(triggers_list)
     // build a map because efficiency matters :)
     mapper = {}
     for (let i = 0; i < triggers_list.length; i++){
@@ -74,7 +74,6 @@ async function needToBlur(filename, triggers_list){
     return new Promise((resolve, reject) => {
         try {
             getLabels(filename).then(labels => {
-                console.log(labels)
                 if (labels === []){
                     reject("Unable to parse image")
                 }
