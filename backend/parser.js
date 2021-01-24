@@ -1,5 +1,4 @@
 async function getLabels(filename){
-    const secret = require("./secret.json") // contains info of our gcloud account
     const vision = require('@google-cloud/vision');
 
     // Creates a client
