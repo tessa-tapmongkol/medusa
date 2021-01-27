@@ -1,4 +1,5 @@
 # qwerhacks2021
+A google chrome extension that blocks a user's phobias and/or triggers by blurring out any images of them present on the current web page.
 
 # How to run the backend:
 1. Obtain `secret.json`
